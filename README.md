@@ -67,6 +67,10 @@ If you have more questions about how it works, look at the code or contact us.
 Currently the gem only supports stylesheets that need to be split into 2 files.  It could theoretically create more splits (e.g. if you should have more than 8190 selectors), but in that case you should probably refactor the stylesheets anyway.  Contact us, if you have this requirement.
 
 
-## License
+## Credits & License
+
+This is a joint project by the two German Rails shops [Zweitag](http://zweitag.de) und [Railslove](http://railslove.com), therefore the GitHub name "Zweilove".
+
+The original code was written by [Christian Peters](mailto:christian.peters@zweitag.de) (see this [Gist](https://gist.github.com/2398394)) and turned into a gem by [Jakob Hilden](mailto:jakobhilden@gmail.com)
 
 This project rocks and uses MIT-LICENSE.
