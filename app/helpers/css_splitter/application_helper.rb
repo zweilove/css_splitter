@@ -1,14 +1,18 @@
 module CssSplitter
   module ApplicationHelper
     def split_stylesheet_link_tag(*sources)
-      forwarded_sources = []
+      original_sources = sources.dup
 
-      sources.each do |source|
-        forwarded_sources << source
-        forwarded_sources << "#{source}_part2"  if [String, Symbol].include? source.class
-      end
+      options = sources.extract_options!
+      sources.collect!{ |source| "#{source}_split2" }
+      sources << options
 
-      stylesheet_link_tag(*forwarded_sources)
+      [
+        stylesheet_link_tag(*original_sources),
+        "<!--[if lte IE 9]>",
+        stylesheet_link_tag(*sources),
+        "<![endif]-->"
+      ].join("\n").html_safe
     end
   end
 end
