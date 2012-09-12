@@ -10,3 +10,7 @@
  *
  *= require_self
  */
+
+ .foo {
+    color: black;
+ }
