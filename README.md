@@ -2,7 +2,9 @@
 
 ## Status
 
-Work in progress of turning this https://gist.github.com/2398394 into a gem.  Not released yet.
+Work in progress of turning this https://gist.github.com/2398394 into a gem.
+
+A `0.0.1` version has been released to rubygems.org.  Install by putting `gem 'css_splitter'` into your Gemfile.
 
 ## What it does?
 
