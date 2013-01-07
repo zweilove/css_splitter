@@ -74,20 +74,20 @@ module CssSplitter
       output
     end
 
+    # count selectors of a CSS stylesheet
     def self.count_selectors(css_file)
       raise "file could not be found" unless File.exists? css_file
 
+      # get all the rules of the stylesheet using the closing '}'
       rules = IO.readlines(css_file, '}')
       return if rules.first.nil?
 
-      charset_statement, rules[0] = rules.first.partition(/^\@charset[^;]+;/)[1,2]
-      return if rules.first.nil?
-
-      rules.sum {|rule| count_selectors_of_rule(rule)}.tap do |result|
+      rules.sum{ |rule| count_selectors_of_rule(rule) }.tap do |result|
         puts File.basename(css_file) + " contains #{result} selectors."
       end
     end
 
+    # count selectors of one individual CSS rule
     def self.count_selectors_of_rule(rule)
       strip_comments(rule).partition(/\{/).first.scan(/,/).count.to_i + 1
     end
