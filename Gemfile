@@ -5,8 +5,7 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-gem "debugger"
-gem "sqlite3"
+gem "pry-debugger"
 gem "sass-rails"
 gem "jquery-rails"
 gem "uglifier"
