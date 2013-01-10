@@ -95,7 +95,7 @@ module CssSplitter
     private
 
       def self.strip_comments(s)
-        s.gsub(/\/\/.*$/, "").gsub(/\/\*.*?\*\//, "")
+        s.gsub(/\/\*.*?\*\//m, "")
       end
 
   end
