@@ -4,6 +4,7 @@ module CssSplitter
 
     MAX_SELECTORS_DEFAULT = 4095
 
+    # split a specifc CSS file (not used by SprocketsEngine)
     def self.split(infile, outdir = File.dirname(infile), max_selectors = MAX_SELECTORS_DEFAULT)
 
       raise "infile could not be found" unless File.exists? infile
@@ -11,7 +12,7 @@ module CssSplitter
       rules = IO.readlines(infile, "}")
       return if rules.first.nil?
 
-      charset_statement, rules[0] = rules.first.partition(/^\@charset[^;]+;/)[1,2]
+      charset_statement, rules[0] = extract_charset(rules.first)
       return if rules.nil?
 
       file_id = 1 # The infile remains the first file
@@ -50,10 +51,11 @@ module CssSplitter
       strip_comments(css_string).chomp.scan /[^}]*}/
     end
 
+    # extracts the specified part of an overlong CSS string
     def self.extract_part(rules, part = 1, max_selectors = MAX_SELECTORS_DEFAULT)
       return if rules.first.nil?
 
-      charset_statement, rules[0] = rules.first.partition(/^\@charset[^;]+;/)[1,2]
+      charset_statement, rules[0] = extract_charset(rules.first)
       return if rules.nil?
 
       output = charset_statement
@@ -93,6 +95,15 @@ module CssSplitter
     end
 
     private
+
+      # extracts potential charset declaration from the first rule
+      def self.extract_charset(rule)
+        if rule.include?('charset')
+          rule.partition(/^\@charset[^;]+;/)[1,2]
+        else
+          [nil, rule]
+        end
+      end
 
       def self.strip_comments(s)
         s.gsub(/\/\*.*?\*\//m, "")

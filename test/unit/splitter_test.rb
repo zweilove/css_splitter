@@ -10,6 +10,8 @@ class CssSplitterTest < ActiveSupport::TestCase
     assert_equal CssSplitter::Splitter.count_selectors_of_rule('foo, bar { color: baz; }'), 2
   end
 
+  # --- split_string_into_rules ---
+
   test '#split_string_into_rules' do
     simple = "a{foo:bar;}b{baz:qux;}"
     assert_equal ["a{foo:bar;}", "b{baz:qux;}"], CssSplitter::Splitter.split_string_into_rules(simple)
@@ -28,5 +30,17 @@ class CssSplitterTest < ActiveSupport::TestCase
   test '#split_string_into_rules for strings with protocol independent urls' do
     simple = "a{foo:url(//assets.server.com);}b{bar:url(//assets/server.com);}"
     assert_equal ["a{foo:url(//assets.server.com);}", "b{bar:url(//assets/server.com);}"], CssSplitter::Splitter.split_string_into_rules(simple)
+  end
+
+  # --- extract_charset ---
+
+  test '#extract_charset with no charset' do
+    first_rule = ".foo { color: black; }"
+    assert_equal [nil, first_rule], CssSplitter::Splitter.send(:extract_charset, first_rule)
+  end
+
+  test '#extract_charset with charset' do
+    first_rule = '@charset "UTF-8"; .foo { color: black; }'
+    assert_equal ['@charset "UTF-8";', ' .foo { color: black; }'], CssSplitter::Splitter.send(:extract_charset, first_rule)
   end
 end
