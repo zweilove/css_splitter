@@ -1,4 +1,4 @@
-# 0.0.2
+# 0.0.2  (unreleased)
 
 * [Improvement] Made the SprocketEngine addition an initializer, so it will work even when `initialize_on_precompile` isn't set
 * [Bugfix] Removed unnecessary charset extraction from `Splitter#count_selectors` method, which had caused the first rule of the stylesheet to be ignored.
