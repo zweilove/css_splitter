@@ -1,10 +1,17 @@
 # CssSplitter
 
+Gem for splitting up stylesheets that go beyond the IE limit of 4095 selectors, for Rails 3.1+ apps using the Asset Pipeline.
+
 ## Status
 
-Work in progress of turning this https://gist.github.com/2398394 into a gem.
+Work in progress of turning this https://gist.github.com/2398394 into a gem.  We are at version `0.0.2` and a bunch of bugs have already been fixed.  But there are probably still edge cases left where it won't work perfectly, yet.
 
-A `0.0.1` version has been released to rubygems.org.  Install by putting `gem 'css_splitter'` into your Gemfile.
+Contributions in form of bug reports, test cases and pull requests are welcome!
+
+
+## Installation
+
+Install by putting `gem 'css_splitter'` into your Gemfile.
 
 ## What it does?
 
