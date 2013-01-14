@@ -22,17 +22,17 @@ module CssSplitter
       charset_statement, rules[0] = extract_charset(rules.first)
       return if rules.nil?
 
-      output = charset_statement
+      output = charset_statement || ""
       selectors_count = 0
-      selector_range = max_selectors * (part - 1) + 1 .. max_selectors * part
+      selector_range = max_selectors * (part - 1) + 1 .. max_selectors * part # e.g (4096..8190)
 
       rules.each do |rule|
         rule_selectors_count = count_selectors_of_rule rule
         selectors_count += rule_selectors_count
 
-        if selector_range.cover? selectors_count
+        if selector_range.cover? selectors_count # add rule to current output if within selector_range
           output << rule
-        elsif selectors_count > selector_range.end
+        elsif selectors_count > selector_range.end # stop writing to output
           break
         end
       end
