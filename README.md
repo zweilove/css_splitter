@@ -47,6 +47,15 @@ You also need to remember to add those new files to the asset pipeline, so they 
       class Application < Rails::Application
         config.assets.precompile += %w( too_big_stylesheet_split2.css )
 
+So, these are the 4 important requirements for your splitted stylesheet:
+
+1. needs to have different filename than orginal, e.g. `original_stylesheet_split2` or `application_split2`
+2. needs to add `.split2` as the terminal file extension, e.g. `.css.split2` or `.css.sass.split2`
+3. needs to include the content of the orginal stylesheet, e.g. through `//= include 'application'`
+4. neess to be added to list of precompiled assets
+
+
+
 ### 2. Including your split stylesheets
 
 Now that you have split up your big stylesheets at the 4095 limit you need to change your HTML layout, so the split stylesheets are used for older IE versions (IE9 and older).
