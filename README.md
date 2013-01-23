@@ -1,5 +1,7 @@
 # CssSplitter
 
+[![Dependency Status](https://gemnasium.com/zweilove/css_splitter.png)](https://gemnasium.com/zweilove/css_splitter)
+
 Gem for splitting up stylesheets that go beyond the IE limit of 4095 selectors, for Rails 3.1+ apps using the Asset Pipeline.
 
 ## Status
