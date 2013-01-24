@@ -2,12 +2,12 @@ require 'test_helper'
 
 class CssSplitterTest < ActiveSupport::TestCase
   test "#count_selectors" do
-    assert_equal CssSplitter::Splitter.count_selectors('test/unit/too_many_selectors.css'), 2939
+    assert_equal 2938, CssSplitter::Splitter.count_selectors('test/unit/too_many_selectors.css')
   end
 
   test "#count_selectors_of_rule" do
-    assert_equal CssSplitter::Splitter.count_selectors_of_rule('foo { color: baz; }'), 1
-    assert_equal CssSplitter::Splitter.count_selectors_of_rule('foo, bar { color: baz; }'), 2
+    assert_equal 1, CssSplitter::Splitter.count_selectors_of_rule('foo { color: baz; }')
+    assert_equal 2, CssSplitter::Splitter.count_selectors_of_rule('foo, bar { color: baz; }')
   end
 
   # --- split_string_into_rules ---
@@ -42,5 +42,11 @@ class CssSplitterTest < ActiveSupport::TestCase
   test '#extract_charset with charset' do
     first_rule = '@charset "UTF-8"; .foo { color: black; }'
     assert_equal ['@charset "UTF-8";', ' .foo { color: black; }'], CssSplitter::Splitter.send(:extract_charset, first_rule)
+  end
+
+  # --- split_string ---
+
+  test '#split_string to get the second split' do
+    assert_equal "\n#test { background-color: green ;}", CssSplitter::Splitter.split_string(File.read('test/dummy/app/assets/stylesheets/too_big_stylesheet.css.scss'), 2)
   end
 end
