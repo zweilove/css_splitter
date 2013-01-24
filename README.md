@@ -47,12 +47,12 @@ You also need to remember to add those new files to the asset pipeline, so they 
       class Application < Rails::Application
         config.assets.precompile += %w( too_big_stylesheet_split2.css )
 
-So, these are the 4 important requirements for your splitted stylesheet:
+Here is a checklist of requirements for your split stylesheet:
 
-1. needs to have different filename than orginal, e.g. `original_stylesheet_split2` or `application_split2`
-2. needs to add `.split2` as the terminal file extension, e.g. `.css.split2` or `.css.sass.split2`
-3. needs to include the content of the orginal stylesheet, e.g. through `//= include 'application'`
-4. neess to be added to list of precompiled assets
+1. It needs to have different filename than orginal, e.g. `original_stylesheet_split2` or `application_split2`
+2. It needs to have `.split2` as the terminal file extension, e.g. `.css.split2` or `.css.sass.split2`
+3. It needs to include the content of the orginal stylesheet, e.g. through `//= include 'application'`
+4. It needs to be added to list of precompiled assets
 
 
 
@@ -82,11 +82,11 @@ If you have more questions about how it works, look at the code or contact us.
 
 ## Limitations & Known Issues
 
-**More than 8190 selectors***
+**More than 8190 selectors**
 
 Currently the gem only supports stylesheets that need to be split into 2 files.  It could theoretically create more splits (e.g. if you should have more than 8190 selectors), but in that case you should probably refactor your stylesheets anyway.  Contact us, if you have this requirement.
 
-**@edia queries**
+**@media queries**
 
 The selector counting algorithm is currently not counting `@media` queries correctly.  For each `@media` query it is adding one additional selector to the count (which is actually not a problem in most cases).
 
