@@ -1,3 +1,8 @@
+# 0.1.0 (unreleased)
+
+* [Removal] Removed unused `Splitter#split` method
+* [Bugfix] Fixed little bug in `Splitter#count_selectors` that was yielding wrong results
+
 # 0.0.2
 
 * [Improvement] Made the SprocketEngine addition an initializer, so it will work even when `initialize_on_precompile` isn't set
