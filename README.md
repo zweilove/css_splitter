@@ -80,9 +80,17 @@ Basically, CssSplitter is registering a new `Sprockets::Engine` for the `.split2
 If you have more questions about how it works, look at the code or contact us.
 
 
-## Limitations
+## Limitations & Known Issues
 
-Currently the gem only supports stylesheets that need to be split into 2 files.  It could theoretically create more splits (e.g. if you should have more than 8190 selectors), but in that case you should probably refactor the stylesheets anyway.  Contact us, if you have this requirement.
+**More than 8190 selectors***
+
+Currently the gem only supports stylesheets that need to be split into 2 files.  It could theoretically create more splits (e.g. if you should have more than 8190 selectors), but in that case you should probably refactor your stylesheets anyway.  Contact us, if you have this requirement.
+
+**@edia queries**
+
+The selector counting algorithm is currently not counting `@media` queries correctly.  For each `@media` query it is adding one additional selector to the count (which is actually not a problem in most cases).
+
+If you have a `@media` query spawning right over the 4096 selector barrier, it will probably get ripped apart into the two splits and ultimately produce broken CSS.  You can either try to move the `@media` queries (e.g. before the 4096 selector barrier) or help us fix this issue.
 
 
 ## Credits & License
