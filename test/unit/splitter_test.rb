@@ -47,6 +47,6 @@ class CssSplitterTest < ActiveSupport::TestCase
   # --- split_string ---
 
   test '#split_string to get the second split' do
-    assert_equal "\n#test { background-color: green ;}", CssSplitter::Splitter.split_string(File.read('test/dummy/app/assets/stylesheets/too_big_stylesheet.css.scss'), 2)
+    assert_equal "@charset \"UTF-8\";\n#test { background-color: green ;}", CssSplitter::Splitter.split_string(File.read('test/dummy/app/assets/stylesheets/too_big_stylesheet.css.scss'), 2)
   end
 end
