@@ -49,4 +49,14 @@ class CssSplitterTest < ActiveSupport::TestCase
   test '#split_string to get the second split' do
     assert_equal "@charset \"UTF-8\";\n#test { background-color: green ;}", CssSplitter::Splitter.split_string(File.read('test/dummy/app/assets/stylesheets/too_big_stylesheet.css.scss'), 2)
   end
+
+  # --- strip_comments ---
+
+  test '#strip_comments:  strip single line CSS coment' do
+    assert_equal ".foo { color: black; }\n.foo { color: black; }", CssSplitter::Splitter.send(:strip_comments, ".foo { color: black; }\n/* comment */.foo { color: black; }")
+  end
+
+  test '#strip_comments:  strip multiline CSS coment' do
+    assert_equal ".foo { color: black; }\n.foo { color: black; }", CssSplitter::Splitter.send(:strip_comments, ".foo { color: black; }\n/* multi\nline\ncomment */.foo { color: black; }")
+  end
 end
