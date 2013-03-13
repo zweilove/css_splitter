@@ -37,7 +37,7 @@ For example, if you want to split `too_big_stylesheet.css`, you need to create a
 
     # app/assets/stylesheets/too_big_stylesheet_split2.css.split2
 
-    //= include 'too_big_stylesheet'
+    //= include 'too_big_stylesheet.css'
 
 You also need to remember to add those new files to the asset pipeline, so they will be compiled. For example:
 
@@ -78,6 +78,24 @@ Or you can just create similar HTML as in the above example yourself.
 Basically, CssSplitter is registering a new `Sprockets::Engine` for the `.split2` file extension, that will fill those files with all the selectors beyond the 4095th.  Unfortunately, those `.split2` files need to be created manually, because we haven't figured out a way for a `Sprockets::Engine` to output multiple files.  They need to present before the compile step.
 
 If you have more questions about how it works, look at the code or contact us.
+
+## Gotchas
+
+#### Having a JS assets with the same name as the the split stylesheet
+
+If you want to split a style (e.g. `assets/stylesheets/application.*`) and have a JS asset with the same name (`assets/javascripts/application.*`) in your asset load_path (as is the default in Rails), you need to include the stylesheet along with the file extension `// = include 'application.css'` because otherwise it will try to include the JS asset of the same name instead.  Sprocket's `= include` directive doesn't seem to differentiate between different types/folders and just takes the first asset it can find for any given name (see #10).
+
+#### Don't use Sprocket's `= require_tree .` for stylesheets
+
+If you require a `.split2` stylesheet in your tree that in turns includes the base stylesheet like shown below, you will end up with a nasty `Sprockets::CircularDependencyError`!
+
+    /* assets/stylesheets/application.css */
+    /* = require_tree .
+    
+    /* assets/stylesheets/application_split2.css.split2 */
+    /* = include 'application.css' */
+
+To avoid this it's recommended to **always use Sass's `@import`** for all your stylesheets in favor of Sprocket's `= require` directives, just as the official `sass-rails` gem says: https://github.com/rails/sass-rails#important-note
 
 
 ## Limitations & Known Issues
