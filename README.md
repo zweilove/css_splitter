@@ -1,6 +1,6 @@
 # CssSplitter [![Build Status](https://travis-ci.org/zweilove/css_splitter.png?branch=master)](https://travis-ci.org/zweilove/css_splitter) [![Dependency Status](https://gemnasium.com/zweilove/css_splitter.png)](https://gemnasium.com/zweilove/css_splitter)
 
-Gem for splitting up stylesheets that go beyond the IE limit of 4095 selectors, for Rails 3.1+ apps using the Asset Pipeline.
+Gem for splitting up stylesheets that go beyond the IE limit of 4096 selectors, for Rails 3.1+ apps using the Asset Pipeline.  You can read this [blogpost](http://railslove.com/blog/2013/03/08/overcoming-ies-4096-selector-limit-using-the-css-splitter-gem) for an explanation of this gem's background story.
 
 
 ## Installation
@@ -9,7 +9,7 @@ Install by putting `gem 'css_splitter'` into your Gemfile.
 
 ## What it does?
 
-Older versions of Internet Explorer (basically version 9 and below) have a hard limit for the number of CSS selectors they can process, which is 4095.  If one of your stylesheets exceeds this limit, all the rule sets beyond the 4095th selector will not be processed by IE and your app will miss some styling information.
+Older versions of Internet Explorer (version 9 and below) have a hard limit for the number of CSS selectors they can process, which is 4095.  If one of your stylesheets exceeds this limit, all the rule sets beyond the 4095th selector will not be processed by IE and your app will miss some styling information.
 
 CssSplitter integrates with the Rails 3.1+ Asset Pipeline to generate additional split stylesheets with all the CSS rules beyond the 4095th that can be served to IE browsers in order to get all the styling information.
 
