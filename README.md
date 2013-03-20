@@ -65,7 +65,7 @@ You can just use our `split_stylesheet_link_tag` helper, which would look someth
       <link href="/stylesheets/too_big_stylesheet_split2.css" media="screen" rel="stylesheet" type="text/css" />
     <![endif]-->
 
-Or you can just create similar HTML as in the above example yourself.
+Or you can just create similar HTML as in the above example yourself.  If you want to use the `split_stylesheet_link_tag` helper you need to make sure the gem is loaded in production, so you can't put it in the `:assets` group in your Gemfile.
 
 ## How it works
 
