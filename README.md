@@ -75,7 +75,7 @@ If you have more questions about how it works, look at the code or contact us.
 
 ## Gotchas
 
-#### Having a JS assets with the same name as the the split stylesheet
+#### Having a JS asset with the same name as the the split stylesheet
 
 If you want to split a style (e.g. `assets/stylesheets/application.*`) and have a JS asset with the same name (`assets/javascripts/application.*`) in your asset load_path (as is the default in Rails), you need to include the stylesheet along with the file extension `// = include 'application.css'` because otherwise it will try to include the JS asset of the same name instead.  Sprocket's `= include` directive doesn't seem to differentiate between different types/folders and just takes the first asset it can find for any given name (see #10).
 
