@@ -1,7 +1,8 @@
-# 0.1.0 (unreleased)
+# 0.1.0
 
 * [Removal] Removed unused `Splitter#split` method
 * [Bugfix] Fixed little bug in `Splitter#count_selectors` that was yielding wrong results
+* [Bugfix] Removed unnecessary files in `app/` which were causing #13
 
 # 0.0.2
 
