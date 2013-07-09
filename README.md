@@ -79,9 +79,10 @@ If you have more questions about how it works, look at the code or contact us.
 
 If you want to split a style (e.g. `assets/stylesheets/application.*`) and have a JS asset with the same name (`assets/javascripts/application.*`) in your asset load_path (as is the default in Rails), you need to include the stylesheet along with the file extension `// = include 'application.css'` because otherwise it will try to include the JS asset of the same name instead.  Sprocket's `= include` directive doesn't seem to differentiate between different types/folders and just takes the first asset it can find for any given name (see #10).
 
-#### Don't use Sprocket's `= require_tree .` for stylesheets
+#### Don't use Sprocket's `= require_tree .` or `= require_self` for stylesheets
+It's recommended that you **always use Sass's `@import`** for all your stylesheets in favor of Sprocket's `= require` directives, just as the official `sass-rails` gem says: https://github.com/rails/sass-rails#important-note
 
-If you require a `.split2` stylesheet in your tree that in turns includes the base stylesheet like shown below, you will end up with a nasty `Sprockets::CircularDependencyError`!
+If you have a `.split2` stylesheet in your tree that in turn includes the base stylesheet like shown below, you will end up with a nasty `Sprockets::CircularDependencyError`!
 
     /* assets/stylesheets/application.css */
     /* = require_tree .
@@ -89,7 +90,13 @@ If you require a `.split2` stylesheet in your tree that in turns includes the ba
     /* assets/stylesheets/application_split2.css.split2 */
     /* = include 'application.css' */
 
-To avoid this it's recommended to **always use Sass's `@import`** for all your stylesheets in favor of Sprocket's `= require` directives, just as the official `sass-rails` gem says: https://github.com/rails/sass-rails#important-note
+If you have `require_self` in the stylesheet that you're splitting, as shown below, the `.split2` will end up having **both** the original stylesheet and the split contents. You'll end up with an even bigger stylesheet.
+
+    /* assets/stylesheets/application.css */
+    /* = require_self
+    
+    /* assets/stylesheets/application_split2.css.split2 */
+    /* = include 'application.css' */
 
 
 ## Limitations & Known Issues
