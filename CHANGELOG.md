@@ -2,7 +2,7 @@
 
 * [Removal] Removed unused `Splitter#split` method
 * [Bugfix] Fixed little bug in `Splitter#count_selectors` that was yielding wrong results
-* [Bugfix] Removed unnecessary files in `app/` which were causing #13
+* [Bugfix] Removed unnecessary files in `app/` which were causing #13 and #17
 
 # 0.0.2
 
