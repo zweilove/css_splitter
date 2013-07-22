@@ -1,3 +1,7 @@
+# 0.1.1
+
+* Added license info ("MIT") to gemspec
+
 # 0.1.0
 
 * [Removal] Removed unused `Splitter#split` method
