@@ -1,3 +1,7 @@
+# 0.2.0
+
+* loosen dependency to make it compatible with rails 4
+
 # 0.1.1
 
 * Added license info ("MIT") to gemspec
