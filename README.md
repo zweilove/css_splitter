@@ -44,8 +44,8 @@ You also need to remember to add those new files to the asset pipeline, so they 
 Here is a checklist of requirements for your split stylesheet:
 
 1. It needs to have different filename than orginal, e.g. `original_stylesheet_split2` or `application_split2`
-2. It needs to have `.split2` as the terminal file extension, e.g. `.css.split2` or `.css.sass.split2`
-3. It needs to include the content of the orginal stylesheet, e.g. through `//= include 'application'`
+2. It needs to have `.split2` as a file extension, e.g. `.css.split2`, `.css.sass.split2`, or `.css.split2.erb`
+3. It needs to include the content of the orginal stylesheet, e.g. through `//= include 'application'` or `<%= environment.find_asset('application') %>`
 4. It needs to be added to list of precompiled assets
 
 
