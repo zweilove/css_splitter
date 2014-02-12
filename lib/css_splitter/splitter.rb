@@ -40,6 +40,7 @@ module CssSplitter
         selectors_count += rule_selectors_count
 
         if selector_range.cover? selectors_count # add rule to current output if within selector_range
+          next if first_hit and rule =~ /^\s*}$/ # skip the line if the close bracket is the first rule for the new file
           if media_part
             output << media_part
           elsif first_hit && current_media
