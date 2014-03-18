@@ -23,7 +23,7 @@ CssSplitter integrates with the Rails 3.1+ Asset Pipeline to generate additional
 
 ### 1. Splitting your stylesheets
 
-The first step is indentifying the stylesheets that have more than 4095 selectors and therefore need to be split for IE.
+The first step is identifying the stylesheets that have more than 4095 selectors and therefore need to be split for IE.
 
 Once you know which stylesheets need to be split, you need to create a second "container file" for those stylesheets with the file extension `.split2`, that will contain the styles beyond the 4095 selector limit.
 
