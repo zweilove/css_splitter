@@ -44,8 +44,8 @@ You also need to remember to add those new files to the asset pipeline, so they 
 Here is a checklist of requirements for your split stylesheet:
 
 1. It needs to have different filename than orginal, e.g. `original_stylesheet_split2` or `application_split2`
-2. It needs to have `.split2` as the terminal file extension, e.g. `.css.split2` or `.css.sass.split2`
-3. It needs to include the content of the orginal stylesheet, e.g. through `//= include 'application'`
+2. It needs to have `.split2` as a file extension, e.g. `.css.split2`, `.css.sass.split2`, or `.css.split2.erb`
+3. It needs to include the content of the orginal stylesheet, e.g. through `//= include 'application'` or `<%= environment.find_asset('application') %>`
 4. It needs to be added to list of precompiled assets
 
 
@@ -104,12 +104,6 @@ If you have `require_self` in the stylesheet that you're splitting, as shown bel
 **More than 8190 selectors**
 
 Currently the gem only supports stylesheets that need to be split into 2 files.  It could theoretically create more splits (e.g. if you should have more than 8190 selectors), but in that case you should probably refactor your stylesheets anyway.  Contact us, if you have this requirement.
-
-**@media queries**
-
-The selector counting algorithm is currently not counting `@media` queries correctly.  For each `@media` query it is adding one additional selector to the count (which is actually not a problem in most cases).
-
-If you have a `@media` query spawning right over the 4096 selector barrier, it will probably get ripped apart into the two splits and ultimately produce broken CSS.  You can either try to move the `@media` queries (e.g. before the 4096 selector barrier) or help us fix this issue.
 
 
 ## Credits & License

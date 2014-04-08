@@ -26,15 +26,40 @@ module CssSplitter
       selectors_count = 0
       selector_range = max_selectors * (part - 1) + 1 .. max_selectors * part # e.g (4096..8190)
 
+      current_media = nil
+      selectors_in_media = 0
+      first_hit = true
       rules.each do |rule|
+        media_part = extract_media(rule)
+        if media_part
+          current_media = media_part
+          selectors_in_media = 0
+        end
+
         rule_selectors_count = count_selectors_of_rule rule
         selectors_count += rule_selectors_count
 
         if selector_range.cover? selectors_count # add rule to current output if within selector_range
+          if rule =~ /^\s*}$/
+            current_media = nil
+            # skip the line if the close bracket is the first rule for the new file
+            next if first_hit
+          end
+          if media_part
+            output << media_part
+          elsif first_hit && current_media
+            output << current_media
+          end
+          selectors_in_media += rule_selectors_count if current_media.present?
           output << rule
+          first_hit = false
         elsif selectors_count > selector_range.end # stop writing to output
           break
         end
+      end
+
+      if current_media.present? and selectors_in_media > 0
+        output << '}'
       end
 
       output
@@ -60,6 +85,12 @@ module CssSplitter
 
 
     private
+
+      def self.extract_media(rule)
+        if rule.sub!(/^\s*(@media[^{]*{)([^{}]*{[^}]*})$/) { $2 }
+          $1
+        end
+      end
 
       # extracts potential charset declaration from the first rule
       def self.extract_charset(rule)
