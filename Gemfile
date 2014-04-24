@@ -6,7 +6,7 @@ source "http://rubygems.org"
 gemspec
 
 group :development do
-  gem "pry-debugger"
+  gem "byebug"
 end
 gem "sass-rails"
 gem "jquery-rails"

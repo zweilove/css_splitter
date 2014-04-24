@@ -3,7 +3,9 @@ module CssSplitter
     isolate_namespace CssSplitter
 
     initializer 'css_splitter.sprockets_engine', after: 'sprockets.environment', group: :all do |app|
-      app.assets.register_engine '.split2', CssSplitter::SprocketsEngine
+      for i in  2..CssSplitter.config.number_of_splits
+        app.assets.register_engine ".split#{i}", CssSplitter::SprocketsEngine
+      end
     end
 
     initializer 'css_splitter.action_controller' do |app|

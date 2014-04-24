@@ -4,7 +4,11 @@ module CssSplitter
       original_sources = sources.dup
 
       options = sources.extract_options!
-      sources.collect!{ |source| "#{source}_split2" }
+      sources = sources.each_with_object([]) do |source, collection|
+        for i in  2..CssSplitter.config.number_of_splits
+          collection << "#{source}_split#{i}"
+        end
+      end
       sources << options
 
       [
