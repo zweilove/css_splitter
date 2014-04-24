@@ -2,12 +2,15 @@ require 'test_helper'
 
 class CssSplitterTest < ActiveSupport::TestCase
   test "#count_selectors" do
-    assert_equal 2938, CssSplitter::Splitter.count_selectors('test/unit/too_many_selectors.css')
+    assert_equal 2937, CssSplitter::Splitter.count_selectors('test/unit/too_many_selectors.css')
   end
 
   test "#count_selectors_of_rule" do
     assert_equal 1, CssSplitter::Splitter.count_selectors_of_rule('foo { color: baz; }')
     assert_equal 2, CssSplitter::Splitter.count_selectors_of_rule('foo, bar { color: baz; }')
+
+    # split_string_into_rules splits the closing brace of a media query into its own rule
+    assert_equal 0, CssSplitter::Splitter.count_selectors_of_rule('}')
   end
 
   # --- split_string_into_rules ---
@@ -30,6 +33,11 @@ class CssSplitterTest < ActiveSupport::TestCase
   test '#split_string_into_rules for strings with protocol independent urls' do
     simple = "a{foo:url(//assets.server.com);}b{bar:url(//assets/server.com);}"
     assert_equal ["a{foo:url(//assets.server.com);}", "b{bar:url(//assets/server.com);}"], CssSplitter::Splitter.split_string_into_rules(simple)
+  end
+
+  test '#split_string_into_rules containing media queries' do
+    has_media = "a{foo:bar;}@media print{b{baz:qux;}c{quux:corge;}}d{grault:garply;}"
+    assert_equal ["a{foo:bar;}", "@media print{b{baz:qux;}", "c{quux:corge;}", "}", "d{grault:garply;}"], CssSplitter::Splitter.split_string_into_rules(has_media)
   end
 
   # --- extract_charset ---
@@ -72,7 +80,7 @@ EOD
     #         + Media block and first rule inside the media block
     # Part 2: Ignore the close tag of the media block and outputs the last rule outside the media block
 
-    # Change this line to any number, for example 4, if it failes to ease debugging
+    # Change this line to any number, for example 4, if it fails to ease debugging
     max_selectors = CssSplitter::Splitter::MAX_SELECTORS_DEFAULT
 
     css_rules = []
@@ -96,7 +104,7 @@ EOD
     # Part 1: CssSplitter::Splitter::MAX_SELECTORS_DEFAULT
     # Part 2: Opens with media block with 1 rule inside and one after
 
-    # Change this line to any number, for example 4, if it failes to ease debugging
+    # Change this line to any number, for example 4, if it fails to ease debugging
     max_selectors = CssSplitter::Splitter::MAX_SELECTORS_DEFAULT
 
     css_rules = []
@@ -120,7 +128,7 @@ EOD
     #         + Media block and first rule inside the media block
     # Part 2: Opens with media block with last rule inside and one after
 
-    # Change this line to any number, for example 4, if it failes to ease debugging
+    # Change this line to any number, for example 4, if it fails to ease debugging
     max_selectors = CssSplitter::Splitter::MAX_SELECTORS_DEFAULT
 
     css_rules = []
@@ -144,6 +152,31 @@ EOD
 
     # The second part should open with the media definition, followed by one rule inside
     # the media block and one rule after.
+    assert_equal last_contents, CssSplitter::Splitter.split_string(css_contents, 2, max_selectors)
+  end
+
+  test '#split_string where the media part comes before the split' do
+    # This tests the following situation:
+    # Part 1: Media block with rule inside media block
+    #         + CssSplitter::Splitter::MAX_SELECTORS_DEFAULT - 1 rules outside media block
+    # Part 2: Outputs the last rule outside media block
+
+    # Change this line to any number, for example 4, if it fails to ease debugging
+    max_selectors = CssSplitter::Splitter::MAX_SELECTORS_DEFAULT
+
+    css_rules = []
+    css_rules << "@media print { .media-rule { color: black; } }"
+
+    (max_selectors - 1).times do |n|
+      css_rules << ".a#{n} { color: black; }"
+    end
+
+    first_contents = css_rules.join("").gsub(/\s/, '')
+    last_contents = ".first-after-split { color: black; }".gsub(/\s/, '')
+
+    css_contents = "#{first_contents}#{last_contents}"
+
+    assert_equal first_contents, CssSplitter::Splitter.split_string(css_contents, 1, max_selectors)
     assert_equal last_contents, CssSplitter::Splitter.split_string(css_contents, 2, max_selectors)
   end
 

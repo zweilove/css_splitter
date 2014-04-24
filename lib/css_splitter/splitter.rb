@@ -39,12 +39,13 @@ module CssSplitter
         rule_selectors_count = count_selectors_of_rule rule
         selectors_count += rule_selectors_count
 
+        if rule =~ /^\s*}$/
+          current_media = nil
+          # skip the line if the close bracket is the first rule for the new file
+          next if first_hit
+        end
+
         if selector_range.cover? selectors_count # add rule to current output if within selector_range
-          if rule =~ /^\s*}$/
-            current_media = nil
-            # skip the line if the close bracket is the first rule for the new file
-            next if first_hit
-          end
           if media_part
             output << media_part
           elsif first_hit && current_media
@@ -67,7 +68,8 @@ module CssSplitter
 
     # count selectors of one individual CSS rule
     def self.count_selectors_of_rule(rule)
-      strip_comments(rule).partition(/\{/).first.scan(/,/).count.to_i + 1
+      parts = strip_comments(rule).partition(/\{/)
+      parts.second.empty? ? 0 : parts.first.scan(/,/).count.to_i + 1
     end
 
 
