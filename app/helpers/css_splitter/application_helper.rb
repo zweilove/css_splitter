@@ -1,18 +1,20 @@
 module CssSplitter
   module ApplicationHelper
     def split_stylesheet_link_tag(*sources)
-      original_sources = sources.dup
+      options     = sources.extract_options!
+      split_count = options.delete(:split_count) || 2
 
-      options = sources.extract_options!
-      sources.collect!{ |source| "#{source}_split2" }
-      sources << options
+      sources.map do |source|
+        split_sources = (2..split_count).map { |index| "#{source}_split#{index}" }
+        split_sources << options
 
-      [
-        stylesheet_link_tag(*original_sources),
-        "<!--[if lte IE 9]>",
-        stylesheet_link_tag(*sources),
-        "<![endif]-->"
-      ].join("\n").html_safe
+        [
+          stylesheet_link_tag(source, options),
+          "<!--[if lte IE 9]>",
+          stylesheet_link_tag(*split_sources),
+          "<![endif]-->"
+        ]
+      end.flatten.join("\n").html_safe
     end
   end
 end
