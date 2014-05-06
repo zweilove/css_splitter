@@ -2,11 +2,11 @@
 
 * **Breaking changes!**
 * The `CssSplitter::SprocketsEngine` is now registered as a bundle_processor to avoid issues with sprockets directives #29
-** `.split2` extension is no longer necessary/supported, now we rely on `_splitN` at the end of the filename
-** Now you need to use the `require` rather than the `include` directive in the split stylesheet
-** Prohibition against using `require_tree .` and `require_self` directives no longer applies
-** Better tests
-** Thanks a lot to @Umofomia
+ * `.split2` extension is no longer necessary/supported, now we rely on `_splitN` at the end of the filename
+ * Now you need to use the `require` rather than the `include` directive in the split stylesheet
+ * Prohibition against using `require_tree .` and `require_self` directives no longer applies
+ * Better tests
+ * Thanks a lot to [@Umofomia](https://github.com/Umofomia)
 
 # 0.2.0
 
