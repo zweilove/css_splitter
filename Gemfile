@@ -8,6 +8,7 @@ gemspec
 group :development do
   gem "pry-debugger"
 end
+
 gem "sass-rails"
 gem "jquery-rails"
 gem "uglifier"

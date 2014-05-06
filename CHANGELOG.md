@@ -7,6 +7,7 @@
  * Prohibition against using `require_tree .` and `require_self` directives no longer applies
  * Better tests
  * Thanks a lot to [@Umofomia](https://github.com/Umofomia)
+* loosen dependency on `rails` (depend on `sprockets` instead), to make gem compatible to other frameworks like `middleman`
 
 # 0.2.0
 
