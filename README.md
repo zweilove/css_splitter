@@ -93,7 +93,7 @@ The original code was written by [Christian Peters](mailto:christian.peters@zwei
 
 **Major Contributors**
 
-* [@Umofomia](@Umofomia)
+* [@Umofomia](https://github.com/Umofomia)
 
 This project rocks and uses MIT-LICENSE.
 
