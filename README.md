@@ -1,4 +1,4 @@
-# CssSplitter [![Build Status](https://travis-ci.org/zweilove/css_splitter.png?branch=master)](https://travis-ci.org/zweilove/css_splitter) [![Dependency Status](https://gemnasium.com/zweilove/css_splitter.png)](https://gemnasium.com/zweilove/css_splitter)
+# CssSplitter [![Build Status](https://travis-ci.org/zweilove/css_splitter.png?branch=master)](https://travis-ci.org/zweilove/css_splitter)
 
 Gem for splitting up stylesheets that go beyond the IE limit of 4096 selectors, for Rails 3.1+ apps using the Asset Pipeline.  You can read this [blogpost](http://railslove.com/blog/2013/03/08/overcoming-ies-4096-selector-limit-using-the-css-splitter-gem) for an explanation of this gem's background story.
 
@@ -16,8 +16,8 @@ CssSplitter integrates with the Rails 3.1+ Asset Pipeline to generate additional
 
 ## Dependencies
 
-* Rails 3.1+
-* Asset Pipeline
+* Sprockets 2.0+
+* e.g. Rails 3.1+ with the asset pipeline
 
 ## Documentation
 
@@ -83,7 +83,7 @@ If you have more questions about how it works, look at the code or contact us.
 
 #### Differences from previous versions
 
-Note that if you used the 0.x.x versions of this gem, the naming and contents of the split files have changed. Split files no longer need to have the `.split2` extension and now use the `require` directive rather than the `include` directive. The previous prohibition against using `require_tree .` and `require_self` directives also no longer applies.
+Note that if you used versions below `0.4.0` of this gem, the naming and contents of the split files have changed. Split files no longer need to have the `.split2` extension and now use the `require` directive rather than the `include` directive. The previous prohibition against using `require_tree .` and `require_self` directives also no longer applies.  For more details see the [CHANGELOG.md](CHANGELOG.md)
 
 ## Credits & License
 
@@ -91,8 +91,9 @@ This is a joint project by the two German Rails shops [Zweitag](http://zweitag.d
 
 The original code was written by [Christian Peters](mailto:christian.peters@zweitag.de) and [Thomas Hollstegge](mailto:thomas.hollstegge@zweitag.de) (see this [Gist](https://gist.github.com/2398394)) and turned into a gem by [Jakob Hilden](mailto:jakobhilden@gmail.com).
 
+**Major Contributors**
+
+* @Umofomia
+
 This project rocks and uses MIT-LICENSE.
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/zweilove/css_splitter/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
