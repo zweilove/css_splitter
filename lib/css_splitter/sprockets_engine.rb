@@ -11,12 +11,12 @@ module CssSplitter
     end
 
     def evaluate(scope, locals, &block)
-      # determine which is the current split (e.g. split2, split3)
-      split = if scope.pathname.extname =~ /(\d+)$/; $1
-              elsif scope.pathname.basename.to_s =~ /_split(\d+)\.css/; $1
-              else 2
-              end
-      CssSplitter::Splitter.split_string(data, split.to_i)
+      # Evaluate the split if the asset is named with a trailing _split2, _split3, etc.
+      if scope.logical_path =~ /_split(\d+)$/
+        CssSplitter::Splitter.split_string(data, $1.to_i)
+      else
+        data
+      end
     end
   end
 
