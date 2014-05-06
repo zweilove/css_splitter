@@ -9,6 +9,7 @@ group :development do
   gem "pry-debugger"
 end
 
+gem "rails"
 gem "sass-rails"
 gem "jquery-rails"
 gem "uglifier"
