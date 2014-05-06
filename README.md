@@ -83,7 +83,7 @@ If you have more questions about how it works, look at the code or contact us.
 
 #### Differences from previous versions
 
-Note that if you used versions below `0.4.0` of this gem, the naming and contents of the split files have changed. Split files no longer need to have the `.split2` extension and now use the `require` directive rather than the `include` directive. The previous prohibition against using `require_tree .` and `require_self` directives also no longer applies.  For more details see the [CHANGELOG.md](CHANGELOG.md)
+Note that if you used versions below `0.4.0` of this gem, the naming and contents of the split files have changed. Split files no longer need to have the `.split2` extension and now use the `require` directive rather than the `include` directive. The previous prohibition against using `require_tree .` and `require_self` directives also no longer applies.  For more details see the [CHANGELOG.md](CHANGELOG.md#040)
 
 ## Credits & License
 
@@ -93,7 +93,7 @@ The original code was written by [Christian Peters](mailto:christian.peters@zwei
 
 **Major Contributors**
 
-* @Umofomia
+* [@Umofomia](@Umofomia)
 
 This project rocks and uses MIT-LICENSE.
 
