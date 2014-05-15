@@ -39,7 +39,7 @@ module CssSplitter
         rule_selectors_count = count_selectors_of_rule rule
         selectors_count += rule_selectors_count
 
-        if rule =~ /^\s*}$/
+        if rule =~ /\A\s*}\z$/
           current_media = nil
           # skip the line if the close bracket is the first rule for the new file
           next if first_hit
