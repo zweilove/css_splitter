@@ -3,6 +3,7 @@ module CssSplitter
     def split_stylesheet_link_tag(*sources)
       options     = sources.extract_options!
       split_count = options.delete(:split_count) || 2
+
       sources.map do |source|
         split_sources = (2..split_count).map { |index| "#{ source }_split#{ index }" }
 
