@@ -6,7 +6,7 @@ source "http://rubygems.org"
 gemspec
 
 group :development do
-  gem "pry-debugger"
+  gem 'pry-byebug'
 end
 
 gem "rails"
