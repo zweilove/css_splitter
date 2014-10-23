@@ -85,6 +85,16 @@ If you have more questions about how it works, look at the code or contact us.
 
 Note that if you used versions below `0.4.0` of this gem, the naming and contents of the split files have changed. Split files no longer need to have the `.split2` extension and now use the `require` directive rather than the `include` directive. The previous prohibition against using `require_tree .` and `require_self` directives also no longer applies.  For more details see the [CHANGELOG.md](CHANGELOG.md#040)
 
+#### Empty *_split2.css file
+
+In development the `?body=1` parameter tells Sprockets to retrieve the non-precompiled version of the file for debugging. If your `*_split2.css` file is empty, open the file in a new tab, and remove the `?body=1` parameter. If your generated CSS is showing, you can temporarily disable debugging (and thus serve the compiled versions) for your split file:
+
+```
+<%= split_stylesheet_link_tag "application", debug: false %>
+```
+
+Note that it's probably a good idea not to set `debug: false` on your assets indefinitely. Discussion at [issue #37](https://github.com/zweilove/css_splitter/issues/37).
+
 ## Credits & License
 
 This is a joint project by the two German Rails shops [Zweitag](http://zweitag.de) and [Railslove](http://railslove.com), therefore the GitHub name "Zweilove".
