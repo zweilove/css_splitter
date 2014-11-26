@@ -87,13 +87,11 @@ Note that if you used versions below `0.4.0` of this gem, the naming and content
 
 #### Empty *_split2.css file
 
-In development the `?body=1` parameter tells Sprockets to retrieve the non-precompiled version of the file for debugging. If your `*_split2.css` file is empty, open the file in a new tab, and remove the `?body=1` parameter. If your generated CSS is showing, you can temporarily disable debugging (and thus serve the compiled versions) for your split file:
+Since 0.4.1 in development split stylesheets have `debug: false` option by default. This prevents the empty `*_split2.css` file issue. You can always explicitly go one way or the other setting `debug` option directly in the `split_stylesheet_link_tag` like this:
 
 ```
 <%= split_stylesheet_link_tag "application", debug: false %>
 ```
-
-Note that it's probably a good idea not to set `debug: false` on your assets indefinitely. Discussion at [issue #37](https://github.com/zweilove/css_splitter/issues/37).
 
 ## Credits & License
 
