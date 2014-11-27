@@ -1,3 +1,7 @@
+# 0.4.1
+
+* [Improvement] All `*_splitN.css` files default to `debug: false` in development to prevent empty file bug.
+
 # 0.4.0
 
 * **Breaking changes!**

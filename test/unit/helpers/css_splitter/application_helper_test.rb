@@ -18,5 +18,28 @@ module CssSplitter
       assert_equal "<link href=\"/stylesheets/too_big_stylesheet.css\" media=\"screen\" rel=\"stylesheet\" />\n<!--[if lte IE 9]>\n<link href=\"/stylesheets/too_big_stylesheet_split2.css\" media=\"screen\" rel=\"stylesheet\" />\n<link href=\"/stylesheets/too_big_stylesheet_split3.css\" media=\"screen\" rel=\"stylesheet\" />\n<![endif]-->", output
     end
 
+    class RailsEnvDefault < ActionView::TestCase
+      setup do
+        Rails.env = 'development'
+      end
+
+      teardown do
+        Rails.env = 'test'
+      end
+
+      test "should default to false on splits" do
+        output = split_stylesheet_link_tag("too_big_stylesheet")
+        assert_equal "<link href=\"/stylesheets/too_big_stylesheet.css\" media=\"screen\" rel=\"stylesheet\" />\n<!--[if lte IE 9]>\n<link debug=\"false\" href=\"/stylesheets/too_big_stylesheet_split2.css\" media=\"screen\" rel=\"stylesheet\" />\n<![endif]-->", output
+      end
+
+      test "should respect the debug=true option" do
+        output = split_stylesheet_link_tag("too_big_stylesheet", debug: true)
+        assert_equal "<link debug=\"true\" href=\"/stylesheets/too_big_stylesheet.css\" media=\"screen\" rel=\"stylesheet\" />\n<!--[if lte IE 9]>\n<link debug=\"true\" href=\"/stylesheets/too_big_stylesheet_split2.css\" media=\"screen\" rel=\"stylesheet\" />\n<![endif]-->", output
+      end
+      test "should respect the debug=false option" do
+        output = split_stylesheet_link_tag("too_big_stylesheet", debug: false)
+        assert_equal "<link debug=\"false\" href=\"/stylesheets/too_big_stylesheet.css\" media=\"screen\" rel=\"stylesheet\" />\n<!--[if lte IE 9]>\n<link debug=\"false\" href=\"/stylesheets/too_big_stylesheet_split2.css\" media=\"screen\" rel=\"stylesheet\" />\n<![endif]-->", output
+      end
+    end
   end
 end

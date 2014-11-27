@@ -6,7 +6,11 @@ module CssSplitter
 
       sources.map do |source|
         split_sources = (2..split_count).map { |index| "#{source}_split#{index}" }
-        split_sources << options
+        split_options = options.dup
+        if Rails.env == 'development' && !split_options.key?(:debug)
+          split_options[:debug] = false
+        end
+        split_sources << split_options
 
         [
           stylesheet_link_tag(source, options),
