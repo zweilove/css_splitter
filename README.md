@@ -79,6 +79,10 @@ Basically, CssSplitter is registering a new Sprockets bundle processor that look
 
 If you have more questions about how it works, look at the code or contact us.
 
+## Disabling IE conditional comments
+
+You can pass `ie_hack: false` as an option to `split_stylesheet_link_tag` if you don't want the IE conditional comments generated.  This can be useful if you need to embed all of the split stylesheets inside an IE conditional comment.
+
 ## Gotchas
 
 #### Differences from previous versions
