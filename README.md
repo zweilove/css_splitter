@@ -102,6 +102,7 @@ The original code was written by [Christian Peters](mailto:christian.peters@zwei
 **Major Contributors**
 
 * [@Umofomia](https://github.com/Umofomia)
+* [@kruszczynski](https://github.com/kruszczynski)
 
 This project rocks and uses MIT-LICENSE.
 
