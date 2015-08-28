@@ -12,7 +12,21 @@ module CssSplitter
 
     # splits string into array of rules (also strips comments)
     def self.split_string_into_rules(css_string)
-      strip_comments(css_string).chomp.scan /[^}]*}/
+      partial_rules = strip_comments(css_string).chomp.scan /[^}]*}/
+      whole_rules = []
+      bracket_balance = 0
+
+      partial_rules.each do |rule|
+        if bracket_balance == 0
+          whole_rules << rule
+        else
+          whole_rules.last << rule
+        end
+
+        bracket_balance += get_rule_bracket_balance rule
+      end
+
+      whole_rules
     end
 
     # extracts the specified part of an overlong CSS string
@@ -105,6 +119,12 @@ module CssSplitter
 
       def self.strip_comments(s)
         s.gsub(/\/\*.*?\*\//m, "")
+      end
+
+      def self.get_rule_bracket_balance ( rule )
+        num_opening_brackets = rule.scan( /{/ ).size
+        num_closing_brackets = rule.scan( /}/ ).size
+        num_closing_brackets - num_opening_brackets
       end
 
   end
