@@ -5,6 +5,10 @@ class CssSplitterTest < ActiveSupport::TestCase
     assert_equal 2937, CssSplitter::Splitter.count_selectors('test/unit/too_many_selectors.css')
   end
 
+  test "#understand keyframes" do
+    assert_equal 3, CssSplitter::Splitter.count_selectors('test/unit/keyframes.css')
+  end
+
   test "#count_selectors_of_rule" do
     assert_equal 1, CssSplitter::Splitter.count_selectors_of_rule('foo { color: baz; }')
     assert_equal 2, CssSplitter::Splitter.count_selectors_of_rule('foo, bar { color: baz; }')
