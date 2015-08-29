@@ -15,9 +15,16 @@ module CssSplitter
       partial_rules = strip_comments(css_string).chomp.scan /[^}]*}/
       whole_rules = []
       bracket_balance = 0
+      in_media_query = false
 
       partial_rules.each do |rule|
-        if bracket_balance == 0
+        if rule =~ /^@media/
+          in_media_query = true
+        elsif bracket_balance == 0
+          in_media_query = false
+        end
+
+        if bracket_balance == 0 || in_media_query
           whole_rules << rule
         else
           whole_rules.last << rule
