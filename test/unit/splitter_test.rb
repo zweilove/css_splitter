@@ -40,8 +40,9 @@ class CssSplitterTest < ActiveSupport::TestCase
     assert_equal ["a{foo:bar;}", "@media print{b{baz:qux;}", "c{quux:corge;}", "}", "d{grault:garply;}"], CssSplitter::Splitter.split_string_into_rules(has_media)
   end
 
-  test "#split_string_into_rules containing @keyframes" do
-    assert_equal 3, CssSplitter::Splitter.count_selectors('test/unit/keyframes.css')
+  test "#split_string_into_rules containing keyframes" do
+    has_keyframes = "a{foo:bar;}@keyframes rubes{from{baz:qux;}50%{quux:corge;}}d{grault:garply;}"
+    assert_equal ["a{foo:bar;}", "@keyframes rubes{from{baz:qux;}50%{quux:corge;}}", "d{grault:garply;}"], CssSplitter::Splitter.split_string_into_rules(has_keyframes)
   end
 
   # --- extract_charset ---
