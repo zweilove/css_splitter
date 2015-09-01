@@ -46,7 +46,7 @@ Dummy::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( too_big_stylesheet.css too_big_stylesheet_split2.css test_stylesheet_with_media_queries.css test_stylesheet_with_media_queries_split2.css )
+  config.assets.precompile += %w( folder/too_big_stylesheet.css folder/too_big_stylesheet_split2.css test_stylesheet_with_media_queries.css test_stylesheet_with_media_queries_split2.css )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
