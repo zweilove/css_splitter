@@ -1,3 +1,7 @@
+# 0.4.2
+
+* [bugfix] correctly split stylesheets even if @keyframes are directly on the rule limit #55 by [@rubenswieringa](https://github.com/rubenswieringa)
+
 # 0.4.1
 
 * [Improvement] All `*_splitN.css` files default to `debug: false` in development to prevent empty file bug.
