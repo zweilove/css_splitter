@@ -40,6 +40,11 @@ class CssSplitterTest < ActiveSupport::TestCase
     assert_equal ["a{foo:bar;}", "@media print{b{baz:qux;}", "c{quux:corge;}", "}", "d{grault:garply;}"], CssSplitter::Splitter.split_string_into_rules(has_media)
   end
 
+  test '#split_string_into_rules containing media queries with leading whitespace' do
+    has_media = "a{foo:bar;}\n  @media print{b{baz:qux;}c{quux:corge;}}d{grault:garply;}"
+    assert_equal ["a{foo:bar;}", "\n  @media print{b{baz:qux;}", "c{quux:corge;}", "}", "d{grault:garply;}"], CssSplitter::Splitter.split_string_into_rules(has_media)
+  end
+
   test "#split_string_into_rules containing keyframes" do
     has_keyframes = "a{foo:bar;}@keyframes rubes{from{baz:qux;}50%{quux:corge;}}d{grault:garply;}"
     assert_equal ["a{foo:bar;}", "@keyframes rubes{from{baz:qux;}50%{quux:corge;}}", "d{grault:garply;}"], CssSplitter::Splitter.split_string_into_rules(has_keyframes)
