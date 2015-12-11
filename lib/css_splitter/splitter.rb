@@ -18,7 +18,7 @@ module CssSplitter
       in_media_query = false
 
       partial_rules.each do |rule|
-        if rule =~ /^@media/
+        if rule =~ /^\s*@media/
           in_media_query = true
         elsif bracket_balance == 0
           in_media_query = false
