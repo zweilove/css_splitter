@@ -1,3 +1,7 @@
+# 0.4.3
+
+* [bugfix] for media queries with whitespace in front of them #57
+
 # 0.4.2
 
 * [bugfix] correctly split stylesheets even if @keyframes are directly on the rule limit #55 by [@rubenswieringa](https://github.com/rubenswieringa)
