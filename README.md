@@ -6,7 +6,7 @@ Gem for splitting up stylesheets that go beyond the IE limit of 4096 selectors, 
 
 Since the original developers of this gem are not actively using it in any project at the moment, it is currently in **limited maintenance** mode.  Issues are read and pull requests will be reviewed and merged, but there is currently no acitve maintenance/development.
 
-If you are an active user of the gem and would able to help out maintaining it, it would be greatly appreciated.
+If you are an active user of the gem and would be able to help out maintaining it, it would be greatly appreciated.  Just look at the current issues/pull requests.
 
 ## Installation
 
