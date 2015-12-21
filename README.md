@@ -2,6 +2,11 @@
 
 Gem for splitting up stylesheets that go beyond the IE limit of 4096 selectors, for Rails 3.1+ apps using the Asset Pipeline.  You can read this [blogpost](http://railslove.com/blog/2013/03/08/overcoming-ies-4096-selector-limit-using-the-css-splitter-gem) for an explanation of this gem's background story.
 
+### Development status
+
+Since the original developers of this gem are not actively using it in any project at the moment, it is currently in **limited maintenance** mode.  Issues are read and pull requests will be reviewed and merged, but there is currently no acitve maintenance/development.
+
+If you are an active user of the gem and would able to help out maintaining it, it would be greatly appreciated.
 
 ## Installation
 
