@@ -3,3 +3,5 @@ bundler_args: --without development
 rvm:
   - "1.9.3"
   - "2.1.1"
+before_install:
+  - gem update bundler
