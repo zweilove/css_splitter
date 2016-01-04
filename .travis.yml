@@ -7,4 +7,3 @@ rvm:
   - "2.2"
 gemfile:
   - "Gemfile"
-  - "Gemfile.rails3"
