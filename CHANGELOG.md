@@ -1,3 +1,7 @@
+# 0.4.4
+
+* [bugfix] fix compatibility with with sprockts-rails version 3.x, see #62
+
 # 0.4.3
 
 * [bugfix] for media queries with whitespace in front of them #57
