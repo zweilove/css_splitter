@@ -35,7 +35,9 @@ class CssSplitterTest < ActiveSupport::TestCase
   end
 
   def assets
-    Rails.application.assets
+    Sprockets::Environment.new(Rails.root).tap do |assets|
+      assets.append_path Rails.root.join("app/assets/stylesheets")
+      assets.css_compressor = :sass
+    end
   end
-
 end
