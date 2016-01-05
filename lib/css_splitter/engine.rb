@@ -3,8 +3,10 @@ module CssSplitter
     isolate_namespace CssSplitter
 
     initializer 'css_splitter.sprockets_engine', after: 'sprockets.environment', group: :all do |app|
-      app.config.assets.configure do |assets|
-        assets.register_bundle_processor 'text/css', CssSplitter::SprocketsEngine
+      if app.config.assets
+        app.config.assets.configure do |assets|
+          assets.register_bundle_processor 'text/css', CssSplitter::SprocketsEngine
+        end
       end
     end
 
