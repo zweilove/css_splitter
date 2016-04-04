@@ -1,7 +1,5 @@
 module CssSplitter
   class Engine < ::Rails::Engine
-    isolate_namespace CssSplitter
-
     initializer 'css_splitter.sprockets_engine', after: 'sprockets.environment', group: :all do |app|
       app.config.assets.configure do |assets|
         assets.register_bundle_processor 'text/css', CssSplitter::SprocketsEngine
