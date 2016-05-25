@@ -1,3 +1,7 @@
+# 0.4.5
+
+* [bugfix] fix sprockets engine registering for older sprocket-rails versions #68
+
 # 0.4.4
 
 * [bugfix] fix compatibility with with sprockts-rails version 3.x, see #62
