@@ -12,7 +12,8 @@ module CssSplitter
 
     initializer 'css_splitter.action_controller' do |app|
       ActiveSupport.on_load :action_controller do
-        helper CssSplitter::ApplicationHelper
+        # Not all controllers use helpers (such as API based controllers)
+        helper CssSplitter::ApplicationHelper if respond_to?(:helper)
       end
     end
   end
