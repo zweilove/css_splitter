@@ -1,3 +1,7 @@
+# 0.4.6 (unreleased)
+
+* [bugfix] Fix issue where helper is not a defined method on controller (e.g. ActionController::API:Class) #65
+
 # 0.4.5
 
 * [bugfix] fix sprockets engine registering for older sprocket-rails versions #68
