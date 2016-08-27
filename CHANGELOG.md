@@ -1,5 +1,6 @@
-# 0.4.6 (unreleased)
+# 0.4.6
 
+* [fix] Implement new engine interface for future sprockets versions #70
 * [bugfix] Fix issue where helper is not a defined method on controller (e.g. ActionController::API:Class) #65
 
 # 0.4.5
