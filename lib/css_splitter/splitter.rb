@@ -27,10 +27,9 @@ module CssSplitter
       current_part = 1
       max = max_selectors
       selectors_count = 0
-      rules.each do |rule|
-        inner_rule = rule.sub(/@media[^{]*{(#{INNER_AT_RULES_REGX})[^}]*}/, '\1') || rule
+      check_part = proc{|rule|
         from = selectors_count + 1
-        to = (selectors_count += count_selectors_of_rule(inner_rule))
+        to = (selectors_count += count_selectors_of_rule(rule))
         #         min      max
         #----------AAAAAAAAAA---------- EX: (min: 1, max: 10)
         #------------------@@@@-------- EX: (from: 9, to: 12)
@@ -38,9 +37,9 @@ module CssSplitter
         #------------------BBBBBBBBBB-- EX: (min: 9, max: 18)
         #                new_min new_max
         if to > max #out range
-          break if current_part >= part
+          next :out_of_part if current_part >= part #是當前要處理的part
           current_part += 1
-          overlap = max - from + 1
+          overlap = max - from + 1 #重疊沒有計算到的數量
           max += max_selectors - overlap
         end
         #         min      max
@@ -48,9 +47,33 @@ module CssSplitter
         #----------@@@@---------------- EX: (from: 1, to: 4)
         #        from to
         if to <= max #in range
-          next if current_part < part
-          output << rule
+          next if current_part < part #還沒到當前要處理的part
+          next :in_part
         end
+      }
+      rules.each do |rule|
+        rule.sub!(/(@media[^{]*{)(#{INNER_AT_RULES_REGX})[^}]*}/, '\2')
+        if (media_part = $1)
+          hit = false
+          split_string_into_rules(rule).each_with_index do |rule, idx|
+            case check_part.call(rule)
+            when :out_of_part
+              need_break = true
+              break
+            when :in_part
+              output << media_part if not hit
+              output << rule
+              hit = true
+            end
+          end
+          output << '}' if hit
+        else
+          case check_part.call(rule)
+          when :out_of_part ; need_break = true
+          when :in_part     ; output << rule
+          end
+        end
+        break if need_break
       end
       return output
     end

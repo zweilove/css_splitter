@@ -140,7 +140,6 @@ EOD
 
     # Change this line to any number, for example 4, if it fails to ease debugging
     max_selectors = CssSplitter::Splitter::MAX_SELECTORS_DEFAULT
-    max_selectors = 1
 
     css_rules = []
     (max_selectors - 1).times do |n|
