@@ -11,32 +11,12 @@ module CssSplitter
     end
 
     # splits string into array of rules (also strips comments)
+    
+    ORIGINAL_REGX = "[^}]*}"
+    INNER_AT_RULES_REGX = "(?:[^{}]*{[^}]*})*"
     def self.split_string_into_rules(css_string)
-      partial_rules = strip_comments(css_string).chomp.scan /[^}]*}/
-      whole_rules = []
-      bracket_balance = 0
-      in_media_query = false
-
-      partial_rules.each do |rule|
-        if rule =~ /^\s*@media/
-          in_media_query = true
-        elsif bracket_balance == 0
-          in_media_query = false
-        end
-
-        if bracket_balance == 0 || in_media_query
-          whole_rules << rule
-        else
-          whole_rules.last << rule
-        end
-
-        bracket_balance += get_rule_bracket_balance rule
-      end
-
-      whole_rules
+      return strip_comments(css_string).chomp.scan(/[^@{]*@[^{]*{#{INNER_AT_RULES_REGX}[^}]*}|#{ORIGINAL_REGX}/)
     end
-
-    # extracts the specified part of an overlong CSS string
     def self.extract_part(rules, part = 1, max_selectors = MAX_SELECTORS_DEFAULT)
       return if rules.first.nil?
 
@@ -44,49 +24,36 @@ module CssSplitter
       return if rules.nil?
 
       output = charset_statement || ""
+      current_part = 1
+      max = max_selectors
       selectors_count = 0
-      selector_range = max_selectors * (part - 1) + 1 .. max_selectors * part # e.g (4096..8190)
-
-      current_media = nil
-      selectors_in_media = 0
-      first_hit = true
       rules.each do |rule|
-        media_part = extract_media(rule)
-        if media_part
-          current_media = media_part
-          selectors_in_media = 0
+        inner_rule = rule.sub(/@media[^{]*{(#{INNER_AT_RULES_REGX})[^}]*}/, '\1') || rule
+        from = selectors_count + 1
+        to = (selectors_count += count_selectors_of_rule(inner_rule))
+        #         min      max
+        #----------AAAAAAAAAA---------- EX: (min: 1, max: 10)
+        #------------------@@@@-------- EX: (from: 9, to: 12)
+        #                from to
+        #------------------BBBBBBBBBB-- EX: (min: 9, max: 18)
+        #                new_min new_max
+        if to > max #out range
+          break if current_part >= part
+          current_part += 1
+          overlap = max - from + 1
+          max += max_selectors - overlap
         end
-
-        rule_selectors_count = count_selectors_of_rule rule
-        selectors_count += rule_selectors_count
-
-        if rule =~ /\A\s*}\z$/
-          current_media = nil
-          # skip the line if the close bracket is the first rule for the new file
-          next if first_hit
-        end
-
-        if selector_range.cover? selectors_count # add rule to current output if within selector_range
-          if media_part
-            output << media_part
-          elsif first_hit && current_media
-            output << current_media
-          end
-          selectors_in_media += rule_selectors_count if current_media.present?
+        #         min      max
+        #----------AAAAAAAAAA---------- EX: (min: 1, max: 10)
+        #----------@@@@---------------- EX: (from: 1, to: 4)
+        #        from to
+        if to <= max #in range
+          next if current_part < part
           output << rule
-          first_hit = false
-        elsif selectors_count > selector_range.end # stop writing to output
-          break
         end
       end
-
-      if current_media.present? and selectors_in_media > 0
-        output << '}'
-      end
-
-      output
+      return output
     end
-
     # count selectors of one individual CSS rule
     def self.count_selectors_of_rule(rule)
       parts = strip_comments(rule).partition(/\{/)
