@@ -52,7 +52,7 @@ module CssSplitter
         end
       }
       rules.each do |rule|
-        if (media_part = extract_media_part!(rule))
+        if (media_part = extract_media(rule))
           hit = false
           split_string_into_rules(rule).each_with_index do |rule, idx|
             case check_part.call(rule)
@@ -76,13 +76,9 @@ module CssSplitter
       end
       return output
     end
-    def self.extract_media_part!(rule)
-      rule.sub!(/(@media[^{]*{)(#{INNER_AT_RULES_REGX})[^}]*}/, '\2')
-      return $1
-    end
     # count selectors of one individual CSS rule
     def self.count_selectors_of_rule(rule)
-      return split_string_into_rules(rule).map{|rule| count_selectors_of_rule(rule) }.inject(&:+) if extract_media_part!(rule)
+      return split_string_into_rules(rule).map{|rule| count_selectors_of_rule(rule) }.inject(&:+) if extract_media(rule)
       parts = strip_comments(rule).partition(/\{/)
       parts.second.empty? ? 0 : parts.first.scan(/,/).count.to_i + 1
     end
@@ -104,9 +100,8 @@ module CssSplitter
     private
 
       def self.extract_media(rule)
-        if rule.sub!(/^\s*(@media[^{]*{)([^{}]*{[^}]*})$/) { $2 }
-          $1
-        end
+        rule.sub!(/(@media[^{]*{)(#{INNER_AT_RULES_REGX})[^}]*}/, '\2')
+        return $1
       end
 
       # extracts potential charset declaration from the first rule
