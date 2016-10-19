@@ -190,6 +190,14 @@ EOD
     assert_equal last_contents, CssSplitter::Splitter.split_string(css_contents, 2, max_selectors)
   end
 
+  test '#split_string where a split should not have more than MAX LIMIT selectors' do
+    max_selectors = 100
+    css_selectors1 = "#{Array.new( 10){|n| ".a#{n}" }.join(',')}{ color: red; }".gsub(/\s/, '')
+    css_selectors2 = "#{Array.new(100){|n| ".b#{n}" }.join(',')}{ color: red; }".gsub(/\s/, '')
+    css_selectors3 = "#{Array.new( 90){|n| ".c#{n}" }.join(',')}{ color: red; }".gsub(/\s/, '')
+    css_contents = "#{css_selectors1}#{css_selectors2}#{css_selectors3}"
+    assert_operator CssSplitter::Splitter.split_string(css_contents, 2, max_selectors).split(',').size, :<=, max_selectors
+  end
   # --- strip_comments ---
 
   test '#strip_comments:  strip single line CSS coment' do
