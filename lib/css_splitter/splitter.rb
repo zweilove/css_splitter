@@ -52,8 +52,7 @@ module CssSplitter
         end
       }
       rules.each do |rule|
-        rule.sub!(/(@media[^{]*{)(#{INNER_AT_RULES_REGX})[^}]*}/, '\2')
-        if (media_part = $1)
+        if (media_part = extract_media_part!(rule))
           hit = false
           split_string_into_rules(rule).each_with_index do |rule, idx|
             case check_part.call(rule)
@@ -77,8 +76,13 @@ module CssSplitter
       end
       return output
     end
+    def self.extract_media_part!(rule)
+      rule.sub!(/(@media[^{]*{)(#{INNER_AT_RULES_REGX})[^}]*}/, '\2')
+      return $1
+    end
     # count selectors of one individual CSS rule
     def self.count_selectors_of_rule(rule)
+      return split_string_into_rules(rule).map{|rule| count_selectors_of_rule(rule) }.inject(&:+) if extract_media_part!(rule)
       parts = strip_comments(rule).partition(/\{/)
       parts.second.empty? ? 0 : parts.first.scan(/,/).count.to_i + 1
     end
