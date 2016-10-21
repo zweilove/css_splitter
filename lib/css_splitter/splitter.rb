@@ -11,12 +11,13 @@ module CssSplitter
     end
 
     # splits string into array of rules (also strips comments)
-    
     ORIGINAL_REGX = "[^}]*}"
     INNER_AT_RULES_REGX = "(?:[^{}]*{[^}]*})*"
     def self.split_string_into_rules(css_string)
       return strip_comments(css_string).chomp.scan(/[^@{]*@[^{]*{#{INNER_AT_RULES_REGX}[^}]*}|#{ORIGINAL_REGX}/)
     end
+
+    # extracts the specified part of an overlong CSS string
     def self.extract_part(rules, part = 1, max_selectors = MAX_SELECTORS_DEFAULT)
       return if rules.first.nil?
 
@@ -37,9 +38,9 @@ module CssSplitter
         #------------------BBBBBBBBBB-- EX: (min: 9, max: 18)
         #                new_min new_max
         if to > max #out range
-          next :out_of_part if current_part >= part #是當前要處理的part
+          next :out_of_part if current_part >= part
           current_part += 1
-          overlap = max - from + 1 #重疊沒有計算到的數量
+          overlap = max - from + 1
           max += max_selectors - overlap
         end
         #         min      max
@@ -47,7 +48,7 @@ module CssSplitter
         #----------@@@@---------------- EX: (from: 1, to: 4)
         #        from to
         if to <= max #in range
-          next if current_part < part #還沒到當前要處理的part
+          next if current_part < part
           next :in_part
         end
       }
@@ -76,6 +77,7 @@ module CssSplitter
       end
       return output
     end
+
     # count selectors of one individual CSS rule
     def self.count_selectors_of_rule(rule)
       return split_string_into_rules(rule).map{|rule| count_selectors_of_rule(rule) }.inject(&:+) if extract_media(rule)
