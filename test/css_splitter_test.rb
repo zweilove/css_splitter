@@ -13,18 +13,17 @@ class CssSplitterTest < ActiveSupport::TestCase
     part2 = "#test{background-color:green}" * CssSplitter::Splitter::MAX_SELECTORS_DEFAULT
     part3 = "#test{background-color:blue}"
 
-    assert_equal "#{part1}#{part2}#{part3}\n",  assets["erb_stylesheet"].to_s
-    assert_equal "#{part2}\n",                  assets["erb_stylesheet_split2"].to_s
-    assert_equal "#{part3}\n",                  assets["erb_stylesheet_split3"].to_s
+    assert_equal "#{part1}#{part2}#{part3}",  assets["erb_stylesheet"].to_s.gsub(/\s/, '')
+    assert_equal "#{part2}",                  assets["erb_stylesheet_split2"].to_s.gsub(/\s/, '')
+    assert_equal "#{part3}",                  assets["erb_stylesheet_split3"].to_s.gsub(/\s/, '')
   end
 
   test "asset pipeline stylesheet splitting on stylesheet combined using requires" do
     red   = "#test{background-color:red}"   * 100
     green = "#test{background-color:green}" * CssSplitter::Splitter::MAX_SELECTORS_DEFAULT
     blue  = "#test{background-color:blue}"
-
-    assert_equal "#{red}#{green}#{blue}\n",                           assets["combined"].to_s
-    assert_equal "#{"#test{background-color:green}" * 100}#{blue}\n", assets["combined_split2"].to_s
+    assert_equal "#{red}#{green}#{blue}",                           assets["combined"].to_s.gsub(/\s/, '')
+    assert_equal "#{"#test{background-color:green}" * 100}#{blue}", assets["combined_split2"].to_s.gsub(/\s/, '')
   end
 
   private
