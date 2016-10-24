@@ -44,12 +44,13 @@ module CssSplitter
       return if rules.nil?
 
       output = charset_statement || ""
-      selectors_count = 0
-      selector_range = max_selectors * (part - 1) + 1 .. max_selectors * part # e.g (4096..8190)
-
+      
       current_media = nil
       selectors_in_media = 0
       first_hit = true
+
+      selectors_in_part = 0
+
       rules.each do |rule|
         media_part = extract_media(rule)
         if media_part
@@ -58,7 +59,13 @@ module CssSplitter
         end
 
         rule_selectors_count = count_selectors_of_rule rule
-        selectors_count += rule_selectors_count
+
+        if selectors_in_part + rule_selectors_count > max_selectors
+          part -= 1
+          selectors_in_part = rule_selectors_count
+        else
+          selectors_in_part += rule_selectors_count
+        end
 
         if rule =~ /\A\s*}\z$/
           current_media = nil
@@ -66,16 +73,16 @@ module CssSplitter
           next if first_hit
         end
 
-        if selector_range.cover? selectors_count # add rule to current output if within selector_range
+        if part == 1 && selectors_in_part < max_selectors
           if media_part
-            output << media_part
+            output << "\n\n" << media_part
           elsif first_hit && current_media
-            output << current_media
+            output << "\n\n" << current_media
           end
           selectors_in_media += rule_selectors_count if current_media.present?
           output << rule
           first_hit = false
-        elsif selectors_count > selector_range.end # stop writing to output
+        elsif part == 0
           break
         end
       end
@@ -93,8 +100,6 @@ module CssSplitter
       parts.second.empty? ? 0 : parts.first.scan(/,/).count.to_i + 1
     end
 
-
-
     # count selectors of a CSS stylesheet (not used by SprocketsEngine)
     def self.count_selectors(css_file)
       raise "file could not be found" unless File.exists? css_file
@@ -104,8 +109,6 @@ module CssSplitter
 
       rules.sum{ |rule| count_selectors_of_rule(rule) }
     end
-
-
 
     private
 
@@ -131,7 +134,5 @@ module CssSplitter
       def self.get_rule_bracket_balance ( rule )
         rule.scan( /}/ ).size - rule.scan( /{/ ).size
       end
-
   end
-
 end
