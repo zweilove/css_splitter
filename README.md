@@ -4,9 +4,8 @@ Gem for splitting up stylesheets that go beyond the IE limit of 4096 selectors, 
 
 ### Development status
 
-Since the original developers of this gem are not actively using it in any project at the moment, it is currently in **limited maintenance** mode.  Issues are read and pull requests will be reviewed and merged, but there is currently no acitve maintenance/development.
-
-If you are an active user of the gem and would be able to help out maintaining it, it would be greatly appreciated.  Just look at the current issues/pull requests.
+Fortunately, the problem of too large CSS files is long gone. This repo is unmaintained.
+It remains as an artefact of dark times in the history of web browsers.
 
 ## Installation
 
@@ -100,14 +99,13 @@ Since 0.4.1 in development split stylesheets have `debug: false` option by defau
 
 ## Credits & License
 
-This is a joint project by the two German Rails shops [Zweitag](http://zweitag.de) and [Railslove](http://railslove.com), therefore the GitHub name "Zweilove".
+This is a joint project by the two German Rails shops [Zweitag](https://zweitag.de) and [Railslove](https://railslove.com), therefore the GitHub name "Zweilove".
 
-The original code was written by [Christian Peters](mailto:christian.peters@zweitag.de) and [Thomas Hollstegge](mailto:thomas.hollstegge@zweitag.de) (see this [Gist](https://gist.github.com/2398394)) and turned into a gem by [Jakob Hilden](mailto:jakobhilden@gmail.com).
+The original code was written by Christian Peters and Thomas Hollstegge (see this [Gist](https://gist.github.com/2398394)) and turned into a gem by Jakob Hilden.
 
 **Major Contributors**
 
 * [@Umofomia](https://github.com/Umofomia)
 * [@kruszczynski](https://github.com/kruszczynski)
 
-This project rocks and uses MIT-LICENSE.
-
+This project uses MIT-LICENSE.
